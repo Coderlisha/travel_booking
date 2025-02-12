@@ -6,7 +6,7 @@ const cors = require("cors");
 
 const app = express();
 const corsOptions = {
-  origin: "https://travel-booking-eta.vercel.app", // Allow only your frontend
+  origin: "https://travel-booking-eta.vercel.app/", // Allow only your frontend
   methods: "GET,POST",
   allowedHeaders: "Content-Type",
 };
@@ -93,7 +93,7 @@ const server = new ApolloServer({
   resolvers,
   context: ({ req }) => ({ req }),
   cors: {
-    origin: "https://travel-booking-eta.vercel.app", // Allow only frontend
+    origin: "https://travel-booking-eta.vercel.app/", // Allow only frontend
     credentials: true, // Allow cookies if needed
   },
 });
