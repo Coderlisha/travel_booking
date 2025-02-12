@@ -5,7 +5,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "https://travel-booking-eta.vercel.app", // Allow only your frontend
+  methods: "GET,POST",
+  allowedHeaders: "Content-Type",
+};
+
+app.use(cors(corsOptions));
 
 // Connect to MongoDB
 mongoose
@@ -82,10 +88,12 @@ const resolvers = {
 };
 
 // Setup Apollo Server
-const server = new ApolloServer({ typeDefs, resolvers });
-server.start().then(() => {
-  server.applyMiddleware({ app });
-  app.listen(4000, () =>
-    console.log("🚀 Server running on http://localhost:4000/graphql")
-  );
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => ({ req }),
+  cors: {
+    origin: "https://travel-booking-eta.vercel.app", // Allow only frontend
+    credentials: true, // Allow cookies if needed
+  },
 });
