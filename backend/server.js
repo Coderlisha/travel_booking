@@ -9,6 +9,7 @@ const corsOptions = {
   origin: "https://travel-booking-eta.vercel.app", // Allow only your frontend
   methods: "GET,POST",
   allowedHeaders: "Content-Type",
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -87,13 +88,19 @@ const resolvers = {
   },
 };
 
-// Setup Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => ({ req }),
   cors: {
-    origin: "https://travel-booking-eta.vercel.app", // Allow only frontend
-    credentials: true, // Allow cookies if needed
+    origin: "https://travel-booking-eta.vercel.app", // Allow frontend
+    credentials: true,
   },
 });
+
+server.start().then(() => {
+  server.applyMiddleware({ app, cors: false }); // Disable built-in CORS, use our settings
+});
+
+// ✅ Export `app` for Vercel instead of using `app.listen()`
+module.exports = app;
