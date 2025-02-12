@@ -5,7 +5,7 @@ import "./App.css";
 
 // GraphQL Client
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://travel-booking-xx2t.vercel.app/",
   cache: new InMemoryCache(),
 });
 
